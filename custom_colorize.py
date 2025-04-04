@@ -76,12 +76,12 @@ import numpy as np
 
 import tensorflow.compat.v2 as tf
 
-from coltran import datasets
-from coltran.models import colorizer
-from coltran.models import upsampler
-from coltran.utils import base_utils
-from coltran.utils import datasets_utils
-from coltran.utils import train_utils
+import datasets
+from models import colorizer
+from models import upsampler
+from utils import base_utils
+from utils import datasets_utils
+from utils import train_utils
 
 
 flags.DEFINE_string('img_dir', None,
@@ -202,6 +202,7 @@ def main(_):
   model, optimizer, ema = build_model(config)
   checkpoints = train_utils.create_checkpoint(model, optimizer=optimizer,
                                               ema=ema)
+  print(FLAGS.logdir)
   train_utils.restore(model, checkpoints, FLAGS.logdir, ema)
   num_steps_v = optimizer.iterations.numpy()
   logging.info('Producing sample after %d training steps.', num_steps_v)
